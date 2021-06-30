@@ -38,7 +38,7 @@ The following sub-namespaces are available...
 ```C#
 AppendAllText(string source, string content)
 string ReadAllText(string source)
-WriteAllText(string source, string content)
+void WriteAllText(string source, string content)
 ```
 Functions for appending, reading and writing the contents of the source as a single string.
 Note: When using a URL for the source, append and write functions perform an upload.
@@ -46,7 +46,7 @@ Note: When using a URL for the source, append and write functions perform an upl
 ```C#
 AppendAllLines(string source, string[] content)
 string[]  ReadAllLines(string source)
-WriteAllLines(string source, string[] content)
+void WriteAllLines(string source, string[] content)
 ```
 Functions for appending, reading and writing the contents of the source as an string array
 of lines. Each line is the source is an individual entry in the array.
@@ -54,7 +54,7 @@ Note: When using a URL for the source, append and write functions perform an upl
 
 ```C#
 byte[] ReadAllBytes(string source)
-WriteAllBytes(string source, byte[] content)
+void WriteAllBytes(string source, byte[] content)
 ```
 Functions for reading and writing the contents of the source as an byte array.
 Note: When using a URL for the source, append and write functions perform an upload.
@@ -129,10 +129,3 @@ the plugin folders and the common folder (if it exists).
 This also means that append and write functions only work with existing files.
 Thus the write functions cannot be used to make a new file but can be used to
 rewrite an existing file. 
-
-
-
-
-
-
-
