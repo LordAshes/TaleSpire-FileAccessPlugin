@@ -1,10 +1,11 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using UnityEngine;
-using Bounce.Unmanaged;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using System.Reflection;
 
 namespace LordAshes
 {
@@ -13,10 +14,10 @@ namespace LordAshes
     {
         // Plugin info
         public const string Guid = "org.lordashes.plugins.fileaccess";
-        public const string Version = "1.0.0.0";
+        public const string Version = "1.1.1.0";
 
         // Content directory
-        private static string dirPlugin = @"%SYSTEMDRIVE%\Users\%USERNAME%\AppData\Roaming\r2modmanPlus-local\TaleSpire\profiles\Plugins\BepInEx\plugins";
+        private static string dirPlugin = BepInEx.Paths.PluginPath;
         private static string dirCommon = UnityEngine.Application.dataPath.Substring(0, UnityEngine.Application.dataPath.LastIndexOf("/")) + "/TaleSpire_CustomData";
 
         // Configuration
@@ -25,20 +26,16 @@ namespace LordAshes
         // Indication if common directory exists
         private static bool useDirCommon = false;
 
-
         // Filename Cache
         private static List<string> cache = new List<string>();
         private static CacheType cacheType = CacheType.CacheCustomData;
 
         void Awake()
         {
-            // Replace windows variables in directory
-            dirPlugin = dirPlugin.Replace("%SYSTEMDRIVE%", Environment.GetEnvironmentVariable("SYSTEMDRIVE"));
-            dirPlugin = dirPlugin.Replace("%USERNAME%", Environment.GetEnvironmentVariable("USERNAME"));
-
             // Check to see if the common TaleSpire_CustomData exists
             useDirCommon = System.IO.Directory.Exists(dirCommon);
-            Debug.Log("Common 'TaleSpire_CustomData' folder " + ((useDirCommon) ? "is" : "is not") + " present");
+            Debug.Log("Plugins located in "+dirPlugin);
+            Debug.Log(dirCommon + " " + ((useDirCommon) ? "is" : "is not") + " present");
 
             // Read configuration
             triggerKey = Config.Bind("Hotkeys", "Dump Asset Catalog", new KeyboardShortcut(KeyCode.Slash, KeyCode.LeftControl));
