@@ -11,8 +11,11 @@ not need to worry about such details.
 ## Change Log
 
 1.2.0: Supports direct path option
+
 1.1.1: Better location of the plugins folder in case manual install was done.
+
 1.1.0: Fixed issue with forced R2ModMan profile. Plugin now auto detects profile.
+
 1.0.0: Initial release
 
 ## Install
