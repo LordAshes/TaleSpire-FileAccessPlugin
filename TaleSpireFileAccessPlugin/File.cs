@@ -43,7 +43,16 @@ namespace LordAshes
                     // File
                     try
                     {
-                        System.IO.File.AppendAllText(Find(source, cacheSettings)[0], content);
+                        if (source.Substring(1, 1) != ":")
+                        {
+                            // Resource reference
+                            System.IO.File.AppendAllText(Find(source, cacheSettings)[0], content);
+                        }
+                        else
+                        {
+                            // Full path reference
+                            System.IO.File.AppendAllText(source, content);
+                        }
                     }
                     catch (Exception x)
                     {
@@ -82,7 +91,16 @@ namespace LordAshes
                     // File
                     try
                     {
-                        return System.IO.File.ReadAllText(Find(source, cacheSettings)[0]);
+                        if (source.Substring(1, 1) != ":")
+                        {
+                            // Resource reference
+                            return System.IO.File.ReadAllText(Find(source, cacheSettings)[0]);
+                        }
+                        else
+                        {
+                            // Full path reference
+                            return System.IO.File.ReadAllText(source);
+                        }
                     }
                     catch (Exception x)
                     {
@@ -121,7 +139,16 @@ namespace LordAshes
                     // File
                     try
                     {
-                        System.IO.File.WriteAllText(Find(source, cacheSettings)[0], content);
+                        if (source.Substring(1, 1) != ":")
+                        {
+                            // Resource reference
+                            System.IO.File.WriteAllText(Find(source, cacheSettings)[0], content);
+                        }
+                        else
+                        {
+                            // Full path reference
+                            System.IO.File.WriteAllText(source, content);
+                        }
                     }
                     catch (Exception x)
                     {
@@ -161,7 +188,18 @@ namespace LordAshes
                     // File
                     try
                     {
-                        System.IO.File.AppendAllLines(Find(source, cacheSettings)[0], content);
+                        if(source.Substring(1,1)!=":")
+                        {
+                            // Resource reference
+                            System.IO.File.AppendAllLines(Find(source, cacheSettings)[0], content);
+
+                        }
+                        else
+                        {
+                            // Full path refernece
+                            System.IO.File.AppendAllLines(source, content);
+                        }
+
                     }
                     catch (Exception x)
                     {
@@ -200,7 +238,16 @@ namespace LordAshes
                     // File
                     try
                     {
-                        return System.IO.File.ReadAllLines(Find(source, cacheSettings)[0]);
+                        if (source.Substring(1, 1) != ":")
+                        {
+                            // Resource reference
+                            return System.IO.File.ReadAllLines(Find(source, cacheSettings)[0]);
+                        }
+                        else
+                        {
+                            // Full path reference
+                            return System.IO.File.ReadAllLines(source);
+                        }
                     }
                     catch (Exception x)
                     {
@@ -239,7 +286,16 @@ namespace LordAshes
                     // File
                     try
                     {
-                        System.IO.File.WriteAllLines(Find(source, cacheSettings)[0], content);
+                        if (source.Substring(1, 1) != ":")
+                        {
+                            // Resource reference
+                            System.IO.File.WriteAllLines(Find(source, cacheSettings)[0], content);
+                        }
+                        else
+                        {
+                            // Full path reference
+                            System.IO.File.WriteAllLines(source, content);
+                        }
                     }
                     catch (Exception x)
                     {
@@ -279,7 +335,16 @@ namespace LordAshes
                     // File
                     try
                     {
-                        return System.IO.File.ReadAllBytes(Find(source, cacheSettings)[0]);
+                        if (source.Substring(1, 1) != ":")
+                        {
+                            // Resource reference
+                            return System.IO.File.ReadAllBytes(Find(source, cacheSettings)[0]);
+                        }
+                        else 
+                        {
+                            // Full path reference
+                            return System.IO.File.ReadAllBytes(source);
+                        }
                     }
                     catch (Exception x)
                     {
@@ -319,7 +384,16 @@ namespace LordAshes
                     // File
                     try
                     {
-                        System.IO.File.WriteAllBytes(Find(source, cacheSettings)[0], content);
+                        if (source.Substring(1, 1) != ":")
+                        {
+                            // Resource reference
+                            System.IO.File.WriteAllBytes(Find(source, cacheSettings)[0], content);
+                        }
+                        else
+                        {
+                            // Full path reference
+                            System.IO.File.WriteAllBytes(source, content);
+                        }
                     }
                     catch (Exception x)
                     {
@@ -338,7 +412,16 @@ namespace LordAshes
                 if (GetProtocol(source.Replace("\\","/")) == "")
                 {
                     // Load file
-                    return Find(source).Length > 0;
+                    if (source.Substring(1, 1) != ":")
+                    {
+                        // Resource reference
+                        return Find(source).Length > 0;
+                    }
+                    else
+                    {
+                        // Full path reference
+                        return System.IO.File.Exists(source);
+                    }
                 }
                 else
                 {
