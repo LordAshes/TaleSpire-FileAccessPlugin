@@ -10,6 +10,8 @@ not need to worry about such details.
 
 ## Change Log
 
+1.2.3: Catalog option to avoid extra info so that results can be used in code
+
 1.2.0: Supports direct path option
 
 1.1.1: Better location of the plugins folder in case manual install was done.
@@ -95,7 +97,7 @@ CacheFullListing = All files in plugin folders are added. Contents are generated
 startup (does not allow adding contents on the fly).
 
 ```C#
-string[] Catalog()
+string[] Catalog(Bool extraData)
 ```
 Returns a sorted list of all available assets sorted by type and then plugin
 
