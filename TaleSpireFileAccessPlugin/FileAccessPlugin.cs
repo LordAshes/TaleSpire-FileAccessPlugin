@@ -14,7 +14,7 @@ namespace LordAshes
     {
         // Plugin info
         public const string Guid = "org.lordashes.plugins.fileaccess";
-        public const string Version = "1.2.0.0";
+        public const string Version = "1.2.3.0";
 
         // Content directory
         private static string dirPlugin = BepInEx.Paths.PluginPath;

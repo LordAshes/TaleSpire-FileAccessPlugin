@@ -450,17 +450,27 @@ namespace LordAshes
             /// <returns></returns>
             public static string[] Find(string source, CacheType cacheSettings = CacheType.NoChange)
             {
-                if (cacheSettings == CacheType.NoChange) { cacheSettings = cacheType; }
-                if ((cacheSettings == CacheType.NoCacheFullListing) || (cacheSettings == CacheType.NoCacheCustomData) || (cacheSettings != cacheType))
+                string[] find;
+                if (source.Substring(1, 1) != ":")
                 {
-                    // Update cache list
-                    SetCacheType(cacheSettings);
+                    // Resource reference
+                    if (cacheSettings == CacheType.NoChange) { cacheSettings = cacheType; }
+                    if ((cacheSettings == CacheType.NoCacheFullListing) || (cacheSettings == CacheType.NoCacheCustomData) || (cacheSettings != cacheType))
+                    {
+                        // Update cache list
+                        SetCacheType(cacheSettings);
+                    }
+                    System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(System.Text.RegularExpressions.Regex.Escape(source.Replace("\\", "/")), System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                    find = cache.Where<string>(item => regEx.IsMatch(item)).ToArray();
+                    if (find.Length != 1)
+                    {
+                        Debug.Log("FindFile('" + source + "'," + cacheSettings + ") found " + find.Length + " results");
+                    }
                 }
-                System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(System.Text.RegularExpressions.Regex.Escape(source.Replace("\\","/")), System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                string[] find = cache.Where<string>(item => regEx.IsMatch(item)).ToArray();
-                if (find.Length != 1)
+                else
                 {
-                    Debug.Log("FindFile('" + source + "'," + cacheSettings + ") found "+find.Length+" results");
+                    // Full path reference
+                    find = new string[] { source };
                 }
                 return find;
             }
@@ -489,7 +499,7 @@ namespace LordAshes
             /// Method to read all of the files in the files cache list
             /// </summary>
             /// <returns>Array of full filenames</returns>
-            public static string[] Catalog()
+            public static string[] Catalog(bool extendedInfo = false)
             {
                 List<string> entries = new List<string>();
                 foreach(string item in cache)
@@ -497,11 +507,25 @@ namespace LordAshes
                     string entry = "";
                     if (item.Contains("TaleSpire_CustomData"))
                     {
-                        entry = item.Substring(item.IndexOf("TaleSpire_CustomData")) + " (" + item.Substring(0, item.IndexOf("TaleSpire_CustomData")) + ")";
+                        if (extendedInfo)
+                        {
+                            entry = item.Substring(item.IndexOf("TaleSpire_CustomData")) + " (" + item.Substring(0, item.IndexOf("TaleSpire_CustomData")) + ")";
+                        }
+                        else
+                        {
+                            entry = item.Substring(item.IndexOf("TaleSpire_CustomData"));
+                        }
                     }
                     else  if (item.Contains("CustomData"))
                     {
-                        entry = item.Substring(item.IndexOf("CustomData")) + " (" + item.Substring(0, item.IndexOf("CustomData")) + ")";
+                        if (extendedInfo)
+                        {
+                            entry = item.Substring(item.IndexOf("CustomData")) + " (" + item.Substring(0, item.IndexOf("CustomData")) + ")";
+                        }
+                        else
+                        {
+                            entry = item.Substring(item.IndexOf("CustomData"));
+                        }
                     }
                     else
                     {
