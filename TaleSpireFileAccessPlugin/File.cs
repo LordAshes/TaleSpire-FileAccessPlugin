@@ -458,7 +458,7 @@ namespace LordAshes
                     if ((cacheSettings == CacheType.NoCacheFullListing) || (cacheSettings == CacheType.NoCacheCustomData) || (cacheSettings != cacheType))
                     {
                         // Update cache list
-                        SetCacheType(cacheSettings);
+                        SetCacheTypeEx(cacheSettings);
                     }
                     System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(System.Text.RegularExpressions.Regex.Escape(source.Replace("\\", "/")), System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                     find = cache.Where<string>(item => regEx.IsMatch(item)).ToArray();
@@ -479,20 +479,11 @@ namespace LordAshes
             /// Method to set the type of local file list cache
             /// </summary>
             /// <param name="cacheSettings">Cache settings</param>
+            [Obsolete]
             public static void SetCacheType(CacheType cacheSettings)
             {
                 // Update cache list
-                cache.Clear();
-                Debug.Log("Updating file list cache with plugin contents");
-                GetFolders(ref cache, dirPlugin, (cacheSettings == CacheType.CacheCustomData || cacheSettings == CacheType.NoCacheCustomData));
-                Debug.Log(cache.Count + " items in the file list cache");
-                if (useDirCommon)
-                {
-                    Debug.Log("Updating files list cache with common folder contents");
-                    GetFiles(ref cache, dirCommon, false);
-                    Debug.Log(cache.Count + " items in the file list cache");
-                }
-                cacheType = cacheSettings;
+                Debug.LogWarning("File Access Plugin: SetCacheTypeEx is obsolete. Use File Access Plugin to set the cache type for all plugins.");
             }
 
             /// <summary>
@@ -535,6 +526,18 @@ namespace LordAshes
                 }
                 entries.Sort();
                 return entries.ToArray();
+            }
+
+            private static void SetCacheTypeEx(CacheType cacheSettings)
+            {
+                // Update cache list
+                cache.Clear();
+                GetFolders(ref cache, dirPlugin, (cacheSettings == CacheType.CacheCustomData || cacheSettings == CacheType.NoCacheCustomData));
+                if (useDirCommon)
+                {
+                    GetFiles(ref cache, dirCommon, false);
+                }
+                cacheType = cacheSettings;
             }
 
             /// <summary>

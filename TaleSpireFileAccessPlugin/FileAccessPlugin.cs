@@ -14,7 +14,7 @@ namespace LordAshes
     {
         // Plugin info
         public const string Guid = "org.lordashes.plugins.fileaccess";
-        public const string Version = "1.2.3.0";
+        public const string Version = "1.3.0.0";
 
         // Content directory
         private static string dirPlugin = BepInEx.Paths.PluginPath;
@@ -34,13 +34,13 @@ namespace LordAshes
         {
             // Check to see if the common TaleSpire_CustomData exists
             useDirCommon = System.IO.Directory.Exists(dirCommon);
-            Debug.Log("Plugins located in "+dirPlugin);
-            Debug.Log(dirCommon + " " + ((useDirCommon) ? "is" : "is not") + " present");
+            Debug.Log("File Access Plugin: "+dirCommon + " " + ((useDirCommon) ? "is" : "is not") + " present");
 
             // Read configuration
             triggerKey = Config.Bind("Hotkeys", "Dump Asset Catalog", new KeyboardShortcut(KeyCode.Slash, KeyCode.LeftControl));
 
             // Cache limited files list (those in CustomData sub-folder only)
+            cacheType = Config.Bind("Settings", "Cache", CacheType.CacheCustomData).Value;
             File.SetCacheType(cacheType);
         }
 
