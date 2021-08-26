@@ -458,7 +458,7 @@ namespace LordAshes
                     if ((cacheSettings == CacheType.NoCacheFullListing) || (cacheSettings == CacheType.NoCacheCustomData) || (cacheSettings != cacheType))
                     {
                         // Update cache list
-                        SetCacheTypeEx(cacheSettings);
+                        SetCacheTypeInternal(cacheSettings);
                     }
                     System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(System.Text.RegularExpressions.Regex.Escape(source.Replace("\\", "/")), System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                     find = cache.Where<string>(item => regEx.IsMatch(item)).ToArray();
@@ -483,7 +483,7 @@ namespace LordAshes
             public static void SetCacheType(CacheType cacheSettings)
             {
                 // Update cache list
-                Debug.LogWarning("File Access Plugin: SetCacheTypeEx is obsolete. Use File Access Plugin to set the cache type for all plugins.");
+                Debug.LogWarning("File Access Plugin: SetCacheType is obsolete. Use File Access Plugin to set the cache type for all plugins.");
             }
 
             /// <summary>
@@ -528,7 +528,7 @@ namespace LordAshes
                 return entries.ToArray();
             }
 
-            private static void SetCacheTypeEx(CacheType cacheSettings)
+            public static void SetCacheTypeInternal(CacheType cacheSettings)
             {
                 // Update cache list
                 cache.Clear();

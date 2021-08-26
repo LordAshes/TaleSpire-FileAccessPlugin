@@ -14,7 +14,7 @@ namespace LordAshes
     {
         // Plugin info
         public const string Guid = "org.lordashes.plugins.fileaccess";
-        public const string Version = "1.3.0.0";
+        public const string Version = "1.3.1.0";
 
         // Content directory
         private static string dirPlugin = BepInEx.Paths.PluginPath;
@@ -41,7 +41,7 @@ namespace LordAshes
 
             // Cache limited files list (those in CustomData sub-folder only)
             cacheType = Config.Bind("Settings", "Cache", CacheType.CacheCustomData).Value;
-            File.SetCacheType(cacheType);
+            File.SetCacheTypeInternal(cacheType);
         }
 
         void Update()
