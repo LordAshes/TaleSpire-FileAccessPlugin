@@ -10,11 +10,12 @@ using System.Reflection;
 namespace LordAshes
 {
     [BepInPlugin(Guid, "File Access Plug-In", Version)]
+    [BepInDependency(CustomAssetsPlugin.Guid,BepInDependency.DependencyFlags.SoftDependency)]
     public partial class FileAccessPlugin : BaseUnityPlugin
     {
         // Plugin info
         public const string Guid = "org.lordashes.plugins.fileaccess";
-        public const string Version = "1.3.1.0";
+        public const string Version = "1.4.0.0";
 
         // Content directory
         private static string dirPlugin = BepInEx.Paths.PluginPath;
@@ -22,6 +23,7 @@ namespace LordAshes
 
         // Configuration
         private ConfigEntry<KeyboardShortcut> triggerKey;
+        private static ConfigEntry<bool> diagnostics;
 
         // Indication if common directory exists
         private static bool useDirCommon = false;
@@ -38,6 +40,7 @@ namespace LordAshes
 
             // Read configuration
             triggerKey = Config.Bind("Hotkeys", "Dump Asset Catalog", new KeyboardShortcut(KeyCode.Slash, KeyCode.LeftControl));
+            diagnostics = Config.Bind("Diagnostics", "Include diagnostic logs", false);
 
             // Cache limited files list (those in CustomData sub-folder only)
             cacheType = Config.Bind("Settings", "Cache", CacheType.CacheCustomData).Value;

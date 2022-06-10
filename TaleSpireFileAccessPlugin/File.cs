@@ -462,10 +462,14 @@ namespace LordAshes
                     }
                     System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(System.Text.RegularExpressions.Regex.Escape(source.Replace("\\", "/")), System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                     find = cache.Where<string>(item => regEx.IsMatch(item)).ToArray();
-                    if (find.Length != 1)
+                    if (diagnostics.Value)
                     {
-                        Debug.Log("FindFile('" + source + "'," + cacheSettings + ") found " + find.Length + " results");
+                        foreach (string item in find)
+                        {
+                            Debug.Log("FindFile('" + source + "'," + cacheSettings + ") found '" + item + "'");
+                        }
                     }
+                    if (diagnostics.Value) { Debug.Log("FindFile('" + source + "'," + cacheSettings + ") found " + find.Length + " results"); }
                 }
                 else
                 {
@@ -507,7 +511,18 @@ namespace LordAshes
                             entry = item.Substring(item.IndexOf("TaleSpire_CustomData"));
                         }
                     }
-                    else  if (item.Contains("CustomData"))
+                    else if (item.Contains("/Assets/"))
+                    {
+                        if (extendedInfo)
+                        {
+                            entry = item.Substring(item.IndexOf("Assets")) + " (" + item.Substring(0, item.IndexOf("Assets")) + ")";
+                        }
+                        else
+                        {
+                            entry = item.Substring(item.IndexOf("Assets"));
+                        }
+                    }
+                    else if (item.Contains("/CustomData/"))
                     {
                         if (extendedInfo)
                         {
@@ -575,6 +590,10 @@ namespace LordAshes
                 }
                 else
                 {
+                    if (System.IO.Directory.Exists(root + "/Assets"))
+                    {
+                        GetFiles(ref files, root + "/Assets", false);
+                    }
                     if (System.IO.Directory.Exists(root + "/CustomData"))
                     {
                         GetFiles(ref files, root + "/CustomData", false);
